@@ -21,11 +21,25 @@ export const ceateTask = async(req,res) => {
     }
 
 }
-
-// const deleteTask  = async (req,res) => {
-
-// }
-
+export const deleteTask = async (req, res) => {
+    const name = req.params.name; 
+    const { userId } = req.body;
+  
+    try {
+      
+      const Task = await Task.findBy({ name: name });
+  
+      if (Task.userId == userId) {
+        await Task.deleteOne();
+        res.status(200).json({ message: "Task deleted Successfully" });
+      } else {
+        res.status(403).json("Action forbidden");
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  };
+  
 // const update = async(req,res) => {
 
 // } 
