@@ -1,4 +1,4 @@
-import express from "express";
+
 import mongoose from "mongoose";
 
 const UserModel = mongoose.Schema(
@@ -15,7 +15,8 @@ const UserModel = mongoose.Schema(
         
         username :{
             type : String,
-            required : true
+            required : true,
+            unique : true
         },
 
         password :{
