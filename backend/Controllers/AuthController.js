@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import User from "../Models/UserModel.js";
 import bcrypt from "bcrypt";
 
@@ -23,3 +24,25 @@ export const RegisterUser = async(req,res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+const login = async(req,res) => {
+    const {username,password} = req.body;
+
+    try {
+        const user = await User.findOne({username: username});
+
+        if(user){
+            const validity = bcrypt.compare(password, user.password);
+
+            validity? res.status(200).json(user):res.status(400).json({message:"inccorect password"});
+        }
+        else{
+            res.status(400).json({message:"invalid username"});
+        }
+
+    }
+    catch(err){
+        res.status(500).json({message:err});
+    }
+
+}
